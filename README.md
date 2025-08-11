@@ -85,7 +85,7 @@ torchrun --nproc_per_node=1 train.py \
 
 ### **Stage 2: Contrastive Fine-Tuning**
 
-Run `train2.py` to fine-tune the Stage 1 checkpoint with **contrastive preference loss** and **learnable preference tokens**.
+Run `train2.py` to fine-tune the Stage 1 checkpoint with **learnable preference tokens**.
 
 **Main arguments**:
 
