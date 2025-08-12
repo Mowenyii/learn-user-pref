@@ -50,7 +50,7 @@ pip install -r requirements.txt
 
 ## Training
 
-The training process is performed in two consecutive phases.  In the first phase, the model is trained for preference classification using both the base loss and the contrastive preference loss, enabling it to distinguish between liked and disliked items with clear decision boundaries.  In the second phase, we resume training from the first-phase checkpoint and introduce learnable preference tokens, which allow the model to capture shared aesthetic patterns across users and improve generalization to unseen users.  The loss function remains the same across both phases, while the second phase benefits from the enhanced model architecture.
+The training process is performed in two phases.  In the first phase, the model is trained for preference classification using both the base loss and the contrastive preference loss, enabling it to distinguish between liked and disliked items with clear decision boundaries.  In the second phase, we resume training from the first-phase checkpoint and introduce learnable preference tokens, which allow the model to capture shared patterns across users and improve generalization to unseen users.  The loss function remains the same across both phases, while the second phase benefits from the enhanced model architecture.
 
 ---
 
