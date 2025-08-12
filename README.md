@@ -2,6 +2,19 @@
 
 This repository provides the implementation of the paper **"Learning User Preferences for Image Generation Models"**.
 
+
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Arxiv](https://img.shields.io/badge/ArXiv-2508.08220-blue.svg)](https://arxiv.org/abs/2508.08220) 
+[![GitHub](https://img.shields.io/github/stars/Mowenyii/learn-user-pref?style=social)](https://github.com/Mowenyii/learn-user-pref)
+
+
+
+
+
+
+
 ##  Method Overview
 
 <details><summary>CLICK for the full abstract</summary>
@@ -15,21 +28,9 @@ Extensive experiments demonstrate our model outperforms other methods in prefere
 
 
 
-![learn-user-pref](docs/method.png)
+![learn-user-pref](docs/method1.png)
 
 
-(a) The visual encoder and text embedding module extract preference representations 
-$ x_u^{+/-} $ by processing the preference history 
-$ \mathcal{S} $ and a target item 
-$ z_{\text{pos/neg}} $.
-
-
-
-(b) The framework is trained using a base loss 
-$ L_{\text{base}} $ to predict preference labels, and a contrastive preference loss 
-$ L_{\text{CP}} $ that enhances separability between liked and disliked items. 
-Additionally, learnable preference tokens 
-$ P_v $ are introduced to model shared user interests.
 
 
 ## Getting Started
@@ -129,3 +130,23 @@ python eval.py
 ## Models & Dataset
 
 Details and download links for the models and datasets will be released soon. Stay tuned!
+
+
+###  Cite Us
+```
+@misc{mo2025learninguserpreferencesimage,
+      title={Learning User Preferences for Image Generation Model}, 
+      author={Wenyi Mo and Ying Ba and Tianyu Zhang and Yalong Bai and Biye Li},
+      year={2025},
+      eprint={2508.08220},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2508.08220}, 
+}
+```
+
+
+
+###  Acknowledgement
+
+Our code is heavily based on the [ViPer](https://github.com/EPFL-VILAB/ViPer), thanks to all the contributors!
