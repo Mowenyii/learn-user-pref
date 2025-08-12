@@ -50,7 +50,7 @@ pip install -r requirements.txt
 
 ## Training
 
-The training process is performed in two phases.  In the first phase, the model is trained for preference classification using both the base loss and the contrastive preference loss, enabling it to distinguish between liked and disliked items with clear decision boundaries.  In the second phase, we resume training from the first-phase checkpoint and introduce learnable preference tokens, which allow the model to capture shared patterns across users and improve generalization to unseen users.  The loss function remains the same across both phases, while the second phase benefits from the enhanced model architecture.
+The training process is performed in two phases.  In the first phase, the model is trained for preference classification using both the base loss and the contrastive preference loss, enabling it to distinguish between liked and disliked items with clear decision boundaries.  In the second phase, we resume training from the first-phase checkpoint and introduce learnable preference tokens, which allow the model to capture shared patterns across users.  The loss function remains the same across both phases, while the second phase benefits from the enhanced model architecture.
 
 ---
 
@@ -92,12 +92,8 @@ Run `train2.py` to fine-tune the Stage 1 checkpoint with **learnable preference 
 **Main arguments**:
 
 * All Stage 1 arguments (above), plus:
-* `--pool_size` : Candidate pool size for negative sampling.
-* `--use_prefer_tokens` : Enable learnable preference tokens (1 = yes).
-* `--prompt_top_k` : Number of top prompt tokens to keep.
 * `--length` : Sequence length for preference tokens.
 * `--exp_name` : Experiment name for logging.
-* `--pull_constraint_coeff` : Coefficient for preference clustering constraint.
 * `--lora_path` : Path to Stage 1 LoRA checkpoint.
 
 **Example**:
@@ -111,13 +107,10 @@ torchrun --master_port=20676 --nproc_per_node=1 train2.py \
     --ref_pair_num 8 \
     --pool_size 20 \
     --grad_acc_step 4 \
-    --use_prefer_tokens 1 \
     --max_prompt_len 100 \
     --use_prompt 1 \
-    --prompt_top_k 10 \
-    --length 1 \
+    --length 10 \
     --exp_name exp \
-    --pull_constraint_coeff 0.05 \
     --lora_path /path/to/stage1/checkpoint/
 ```
 

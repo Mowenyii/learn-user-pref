@@ -134,19 +134,10 @@ def create_arg_parser():
     parser.add_argument(
         "--pull_constraint_coeff",
         type=float,
-        default=0,
+        default=1,
     )
-    parser.add_argument(
-        "--pool_size",
-        type=int,
-        default=200,
-    )
+
     
-    parser.add_argument(
-        "--prompt_top_k",
-        type=int,
-        default=5,
-    )
     parser.add_argument(
         "--length",
         type=int,
@@ -174,11 +165,7 @@ def create_arg_parser():
         type=int,
         default=0,
     )   
-    parser.add_argument(
-        "--use_prompt_pool",
-        type=int,
-        default=0,
-    )  
+
 
     parser.add_argument(
         "--max_prompt_len",
@@ -1073,11 +1060,11 @@ def train():
     else:
         device="cuda"
     
-    prompt_pool_args={"use_prompt_pool":args.use_prompt_pool,
+    prompt_pool_args={"use_prompt_pool":0,
                       "pull_constraint_coeff":args.pull_constraint_coeff,
                       "device":device,
-                      "pool_size":args.pool_size, 
-                      "prompt_top_k":args.prompt_top_k,"length":args.length,"batchwise_prompt":True,"embed_dim":4096}
+                      "pool_size":1, 
+                      "prompt_top_k":1,"length":args.length,"batchwise_prompt":True,"embed_dim":4096}
     rank0_print(prompt_pool_args)
  
     model = Idefics2ForConditionalGenerationPreferTokens.from_pretrained(

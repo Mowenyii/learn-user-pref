@@ -5,8 +5,8 @@ import pdb
 class PromptPool(nn.Module):
     def __init__(self, length=5, embed_dim=4096, embedding_key='mean', prompt_init='uniform',  
                  use_prompt_pool=False, 
-                 prompt_key=False, pool_size=None, prompt_top_k=None, batchwise_prompt=False, prompt_key_init='uniform',
-                 device="cuda",pull_constraint_coeff=0):
+                 prompt_key=False, pool_size=None, prompt_top_k=1, batchwise_prompt=False, prompt_key_init='uniform',
+                 device="cuda",pull_constraint_coeff=1):
         super().__init__()
 
         self.length = length
@@ -20,29 +20,16 @@ class PromptPool(nn.Module):
         self.batchwise_prompt = batchwise_prompt
         self.pull_constraint_coeff=pull_constraint_coeff
 
-        if self.use_prompt_pool:
-            prompt_pool_shape = (pool_size, length, embed_dim)
-            if prompt_init == 'zero':
-                
-                self.register_parameter("prompt", nn.Parameter(torch.zeros(prompt_pool_shape)))
 
-            elif prompt_init == 'uniform':
-               
-                self.register_parameter("prompt", nn.Parameter(torch.randn(prompt_pool_shape)))
+        if self.prompt_init == 'zero':
+            
+            self.register_parameter("prompt", nn.Parameter(torch.zeros(self.length, self.embed_dim)))
 
-                nn.init.uniform_(self.prompt, -1, 1)
-        
-        
-        else:
-            if self.prompt_init == 'zero':
-               
-                self.register_parameter("prompt", nn.Parameter(torch.zeros(self.length, self.embed_dim)))
+        elif self.prompt_init == 'uniform':
+            
+            self.register_parameter("prompt", nn.Parameter(torch.randn(self.length, self.embed_dim)))
 
-            elif self.prompt_init == 'uniform':
-                
-                self.register_parameter("prompt", nn.Parameter(torch.randn(self.length, self.embed_dim)))
-
-                nn.init.uniform_(self.prompt)
+            nn.init.uniform_(self.prompt)
 
         
 
@@ -64,64 +51,9 @@ class PromptPool(nn.Module):
 
         out = dict()
         self.prompt_key = torch.mean(self.prompt, dim=1)
-        if self.use_prompt_pool:
-            if self.embedding_key == 'mean':
-                x_embed_mean = torch.mean(x_embed, dim=1) 
-            elif self.embedding_key == 'max':
-                x_embed_mean = torch.max(x_embed, dim=1)[0]
-            elif self.embedding_key == 'mean_max':
-                x_embed_mean = torch.max(x_embed, dim=1)[0] + 2 * torch.mean(x_embed, dim=1)
-            elif self.embedding_key == 'cls':
-                if cls_features is None:
-                    x_embed_mean = torch.max(x_embed, dim=1)[0] 
-                else:
-                    x_embed_mean = cls_features
-            else:
-                raise NotImplementedError("Not supported way of calculating embedding keys!")
 
-            prompt_norm = self.l2_normalize(self.prompt_key, dim=1) 
-            x_embed_norm = self.l2_normalize(x_embed_mean, dim=1) 
-            
-            similarity = torch.matmul(x_embed_norm, prompt_norm.t()) 
 
-            if prompt_mask is None:
-                _, idx = torch.topk(similarity, k=self.top_k, dim=1) 
-               
-                if self.batchwise_prompt:
-                    prompt_id, id_counts = torch.unique(idx, return_counts=True, sorted=True)
-              
-                    if prompt_id.shape[0] < self.pool_size:
-                        prompt_id = torch.cat([prompt_id, torch.full((self.pool_size - prompt_id.shape[0],), torch.min(idx.flatten()), device=prompt_id.device)])
-                        id_counts = torch.cat([id_counts, torch.full((self.pool_size - id_counts.shape[0],), 0, device=id_counts.device)])
-                    _, major_idx = torch.topk(id_counts, k=self.top_k) 
-                    major_prompt_id = prompt_id[major_idx] 
-                    idx = major_prompt_id.expand(x_embed.shape[0], -1) 
-            else:
-                idx = prompt_mask 
-
-            batched_prompt_raw = self.prompt[idx] 
-            batch_size, top_k, length, c = batched_prompt_raw.shape
-            batched_prompt = batched_prompt_raw.reshape(batch_size, top_k * length, c) 
-
-            out['prompt_idx'] = idx
-
-            
-            out['prompt_norm'] = prompt_norm
-            out['x_embed_norm'] = x_embed_norm
-            out['similarity'] = similarity
-
-  
-            batched_key_norm = prompt_norm[idx] 
-            out['selected_key'] = batched_key_norm
-            x_embed_norm = x_embed_norm.unsqueeze(1) 
-            sim = batched_key_norm * x_embed_norm 
-            reduce_sim = torch.sum(sim) / x_embed.shape[0] 
-
-            out['reduce_sim'] = reduce_sim
-            
-        else:
-
-            batched_prompt = self.prompt.unsqueeze(0).expand(x_embed.shape[0], -1, -1)
+        batched_prompt = self.prompt.unsqueeze(0).expand(x_embed.shape[0], -1, -1)
         
        
         out['total_prompt_len'] = batched_prompt.shape[1]
