@@ -105,7 +105,6 @@ torchrun --master_port=20676 --nproc_per_node=1 train2.py \
     --eval_steps 5000 \
     --save_steps 10000 \
     --ref_pair_num 8 \
-    --pool_size 20 \
     --grad_acc_step 4 \
     --max_prompt_len 100 \
     --use_prompt 1 \

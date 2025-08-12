@@ -119,7 +119,7 @@ def create_arg_parser():
     parser.add_argument(
         "--ref_pair_num",
         type=int,
-        default=3,
+        default=8,
     )
     parser.add_argument(
         "--grad_acc_step",
