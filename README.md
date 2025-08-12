@@ -3,10 +3,11 @@
 This repository provides the implementation of the paper **"Learning User Preferences for Image Generation Models"**.
 
 
+<a href='https://learn-user-pref.github.io/'><img src='https://img.shields.io/badge/Project-Page-green'></a>
+[![Arxiv](https://img.shields.io/badge/ArXiv-2508.08220-orange.svg)](https://arxiv.org/abs/2508.08220) 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Arxiv](https://img.shields.io/badge/ArXiv-2508.08220-blue.svg)](https://arxiv.org/abs/2508.08220) 
 [![GitHub](https://img.shields.io/github/stars/Mowenyii/learn-user-pref?style=social)](https://github.com/Mowenyii/learn-user-pref)
 
 
@@ -132,7 +133,7 @@ python eval.py
 Details and download links for the models and datasets will be released soon. Stay tuned!
 
 
-###  Cite Us
+##  Cite Us
 ```
 @misc{mo2025learninguserpreferencesimage,
       title={Learning User Preferences for Image Generation Model}, 
@@ -147,6 +148,6 @@ Details and download links for the models and datasets will be released soon. St
 
 
 
-###  Acknowledgement
+##  Acknowledgement
 
 Our code is heavily based on the [ViPer](https://github.com/EPFL-VILAB/ViPer), thanks to all the contributors!
