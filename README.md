@@ -120,21 +120,35 @@ python eval.py
 ```
 
 
-## Models & Dataset
 
-Details and download links for the models and datasets will be released soon. Stay tuned!
+
+##  Datasets
+
+We provide the processed datasets used in our experiments at:
+👉 [Hugging Face Datasets: wenyii/learn-user-pref](https://huggingface.co/datasets/wenyii/learn-user-pref)
+
+The dataset is derived from **[Pick-a-Pic v2](https://huggingface.co/datasets/yuvalkirstain/pickapic_v2)**, containing user-specific preference annotations (liked vs. disliked images).
+We organize the data into **train / validation / test splits**, where each user is associated with a set of reference images and corresponding candidate pairs for evaluation.
+This setup allows direct training and benchmarking of preference prediction models as described in our paper.
+
+
+
+##  Checkpoints
+
+Pre-trained checkpoints of our models are available at:
+👉 [Hugging Face Models: wenyii/learn-user-pref](https://huggingface.co/wenyii/learn-user-pref)
+
+
+
 
 
 ##  Cite Us
 ```
-@misc{mo2025learninguserpreferencesimage,
-      title={Learning User Preferences for Image Generation Model}, 
-      author={Wenyi Mo and Ying Ba and Tianyu Zhang and Yalong Bai and Biye Li},
-      year={2025},
-      eprint={2508.08220},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2508.08220}, 
+@article{mo2025learning,
+  title={Learning User Preferences for Image Generation Model},
+  author={Mo, Wenyi and Ba, Ying and Zhang, Tianyu and Bai, Yalong and Li, Biye},
+  journal={arXiv preprint arXiv:2508.08220},
+  year={2025}
 }
 ```
 
